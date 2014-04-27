@@ -1,5 +1,12 @@
 public class Algoritimos {
-	
+	public int mergeComparacoes = 0;
+	public int mergeTrocas = 0;
+	/**
+	 * Função que recebe lista, ordena e imprime
+	 * conforme algoritimo Selection Sort.
+	 * Exibe numero de comparações e trocas
+	 * @param Lista para ordenar
+	 */
 	public void selection(int[] listaOriginal){
 		int aux = 0;
 		int comparacoes = 0;
@@ -30,8 +37,76 @@ public class Algoritimos {
 		 		
 	}
 	
-	public void merge(){
-		System.out.println("Merge");
+	/**
+	 * Função que recebe lista, ordena e imprime
+	 * conforme algoritimo Merge Sort
+	 * @param listaOriginal
+	 */
+	public void merge(int[] listaOriginal){
+		mergeComparacoes = 0;
+		mergeTrocas = 0; 
+		int[] listaAuxiliar = mergeS(listaOriginal);
+		
+		System.out.println("***** MERGE SORT *****");
+		System.out.print("Lista ordenada: ");
+		for(int i = 0; i < listaAuxiliar.length; i++){			 
+			 System.out.print( listaAuxiliar[i] + " ");
+		 }
+		 System.out.println("");
+		 System.out.println("Numero de comparações: " + mergeComparacoes);
+		 System.out.println("Numero de trocas: " + mergeTrocas);
+		 System.out.println("___________________________________________________________________");
+	}
+	
+	public int[] mergeS(int[] listaOriginal){
+		if (listaOriginal.length > 1) {
+			int[] esq = ldEsq(listaOriginal);
+            int[] dir = ldDir(listaOriginal);
+            
+            mergeS(esq);
+            mergeS(dir);
+            
+            mergeComp(listaOriginal, esq, dir);
+		}
+		return listaOriginal;
+		
+	}
+	
+	public int[] ldEsq(int[] lista) {
+        int tam = lista.length / 2;
+        int[] ldEsq = new int[tam];
+        for (int i = 0; i < tam; i++) {
+        	ldEsq[i] = lista[i];
+        }
+        return ldEsq;
+    }
+	
+    public int[] ldDir(int[] lista) {
+        int tam = lista.length / 2;
+        int tamAux = lista.length - tam;
+        int[] ldDir = new int[tamAux];
+        for (int i = 0; i < tamAux; i++) {
+        	ldDir[i] = lista[i + tam];
+        }
+        return ldDir;
+    }
+    
+    public void mergeComp(int[] result, int[] left, int[] right) {
+		int i1 = 0;   // index into left array
+		int i2 = 0;   // index into right array
+		
+		for (int i = 0; i < result.length; i++) {
+			mergeComparacoes++;
+			if (i2 >= right.length || (i1 < left.length && left[i1] <= right[i2])) {								
+				result[i] = left[i1];    // take from left				
+				i1++;
+			} else {
+				result[i] = right[i2];   // take from right				
+				mergeTrocas++;
+				i2++;
+			}
+		}
+
 	}
 
 
