@@ -2,9 +2,9 @@ public class Algoritimos {
 	public int mergeComparacoes = 0;
 	public int mergeTrocas = 0;
 	/**
-	 * Função que recebe lista, ordena e imprime
+	 * Funï¿½ï¿½o que recebe lista, ordena e imprime
 	 * conforme algoritimo Selection Sort.
-	 * Exibe numero de comparações e trocas
+	 * Exibe numero de comparaï¿½ï¿½es e trocas
 	 * @param Lista para ordenar
 	 */
 	public void selection(int[] listaOriginal){
@@ -31,14 +31,14 @@ public class Algoritimos {
 			 System.out.print( listaOriginal[i] + " ");
 		 }
 		 System.out.println("");
-		 System.out.println("Numero de comparações: " + comparacoes);
+		 System.out.println("Numero de comparaï¿½ï¿½es: " + comparacoes);
 		 System.out.println("Numero de trocas: " + trocas);
 		 System.out.println("___________________________________________________________________");
 		 		
 	}
 	
 	/**
-	 * Função que recebe lista, ordena e imprime
+	 * Funï¿½ï¿½o que recebe lista, ordena e imprime
 	 * conforme algoritimo Merge Sort
 	 * @param listaOriginal
 	 */
@@ -53,7 +53,7 @@ public class Algoritimos {
 			 System.out.print( listaAuxiliar[i] + " ");
 		 }
 		 System.out.println("");
-		 System.out.println("Numero de comparações: " + mergeComparacoes);
+		 System.out.println("Numero de comparaï¿½ï¿½es: " + mergeComparacoes);
 		 System.out.println("Numero de trocas: " + mergeTrocas);
 		 System.out.println("___________________________________________________________________");
 	}
@@ -92,16 +92,16 @@ public class Algoritimos {
     }
     
     public void mergeComp(int[] result, int[] left, int[] right) {
-		int i1 = 0;   // index into left array
-		int i2 = 0;   // index into right array
+		int i1 = 0;   // indice da esquerda
+		int i2 = 0;   // indice da direita
 		
 		for (int i = 0; i < result.length; i++) {
 			mergeComparacoes++;
 			if (i2 >= right.length || (i1 < left.length && left[i1] <= right[i2])) {								
-				result[i] = left[i1];    // take from left				
+				result[i] = left[i1];    // jogar para esquerda				
 				i1++;
 			} else {
-				result[i] = right[i2];   // take from right				
+				result[i] = right[i2];   // jogar para direita				
 				mergeTrocas++;
 				i2++;
 			}
