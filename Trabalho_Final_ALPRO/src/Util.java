@@ -5,7 +5,7 @@ public class Util {
 
 	
 	 public void incluiItinerario(){
-		 
+			
 		 //Lista que recebe os pontos inicias
 		 ArrayList<CadastroPonto> listaPontos =
                  new ArrayList<CadastroPonto>();
@@ -15,6 +15,10 @@ public class Util {
 		 //Lista com os valores ordenados
 		 ArrayList<CadastroPonto> listaItinerario =
                  new ArrayList<CadastroPonto>();
+		 
+		 //Lista com as paradas
+		 ArrayList<CadastroParada> listaParadas =
+				 new ArrayList<CadastroParada>();
 		 
 		 String descricao = JOptionPane.showInputDialog(null,"Endereço de partida", "Endereço", 1);
 		 int operacao = 0;
@@ -55,8 +59,60 @@ public class Util {
 				registro = new CadastroPonto(cadastro1.getNome(), NomeAux, Aux);
 				listaItinerario.add(registro);				
 			 }
-		 }	
-		 
+			 
+			 if(listaItinerario.size() > 0){
+				 int OdometroCombustivel = 0;
+				 int OdometroAux = 0;
+				 int OdometroDescanso = 0;
+				 int inteiroAux = 0;
+				 int AuxiliarKms = 0;
+				 int sobraCombs = 0;
+				 listaPontosAux = listaPontos;
+				 
+				 
+				 for(CadastroPonto cadastro : listaPontosAux){
+					 
+					 //Se sobrou kms no ultimo trajeto contabiliza para gerar parada.
+					 if(sobraCombs > 0){
+						 int qtdeFalta = 600 - sobraCombs;
+						 int novoValor = cadastro.getCusto();
+						 novoValor = novoValor - qtdeFalta;
+						 cadastro.setCusto(novoValor);
+						 CadastroParada paradaExtra = null;
+						 paradaExtra.setNomeOrigem(cadastro.getNome());
+						 paradaExtra.setNomeDestino(cadastro.getDestino());
+						 paradaExtra.setTipo("Combustivel");
+						 OdometroCombustivel = OdometroCombustivel + 600;
+						 paradaExtra.setKms(OdometroCombustivel);
+					 }
+					 
+					 					 
+					 if(cadastro.getCusto() > 600){
+						 inteiroAux = cadastro.getCusto() / 600;
+						 OdometroAux = (inteiroAux - 1) * 600;
+						 AuxiliarKms =  cadastro.getCusto() - OdometroAux;
+						 
+						 //Verificacao por falta de validação no float da divisão. nivel de poda 3.
+						 if(AuxiliarKms < 600){ 
+							 for(int cont=1 ; cont <= (inteiroAux - 1); cont++ ){
+								 CadastroParada parada = null;
+								 parada.setNomeOrigem(cadastro.getNome());
+								 parada.setNomeDestino(cadastro.getDestino());
+								 parada.setTipo("Combustivel");
+								 OdometroCombustivel = OdometroCombustivel + 600;
+								 parada.setKms(OdometroCombustivel);
+								 listaParadas.add(parada);
+								 sobraCombs = AuxiliarKms; 
+								 
+							 }
+						 }						 
+						 
+					 }
+				 }
+				 
+				 
+			 }
+		 }		 
 			
 	 }
 	 
