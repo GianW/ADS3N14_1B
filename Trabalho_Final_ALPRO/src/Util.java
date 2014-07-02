@@ -62,12 +62,14 @@ public class Util {
 			 
 			 if(listaItinerario.size() > 0){
 				 int OdometroCombustivel = 0;
-				 int OdometroAux = 0;
-				 int OdometroDescanso = 0;
+				 int OdometroAux = 0;				 
 				 int inteiroAux = 0;
 				 int AuxiliarKms = 0;
 				 int sobraCombs = 0;
 				 listaPontosAux = listaPontos;
+				 
+				 int OdometroDescanso = 0;
+				 int sobraDescans = 0;
 				 
 				 
 				 for(CadastroPonto cadastro : listaPontosAux){
@@ -108,6 +110,41 @@ public class Util {
 						 }						 
 						 
 					 }
+					 
+					 
+					 //Incremento lista de descanso.
+					 if(sobraDescans > 0){
+						 int qtdeFalta = 240 - sobraDescans;
+						 int novoValor = cadastro.getCusto();
+						 novoValor = novoValor - qtdeFalta;
+						 cadastro.setCusto(novoValor);
+						 CadastroParada paradaExtra = null;
+						 paradaExtra.setNomeOrigem(cadastro.getNome());
+						 paradaExtra.setNomeDestino(cadastro.getDestino());
+						 paradaExtra.setTipo("Descanso");
+						 OdometroCombustivel = OdometroDescanso + 240;
+						 paradaExtra.setKms(OdometroDescanso);
+					 }
+					 
+					 if(cadastro.getCusto() > 240){
+						 inteiroAux = cadastro.getCusto() / 240;
+						 OdometroAux = (inteiroAux - 1) * 240;
+						 AuxiliarKms =  cadastro.getCusto() - OdometroAux;
+						 
+						 if(AuxiliarKms < 240){
+							 CadastroParada parada = null;
+							 parada.setNomeOrigem(cadastro.getNome());
+							 parada.setNomeDestino(cadastro.getDestino());
+							 parada.setTipo("Descanso");
+							 OdometroDescanso = OdometroDescanso + 240;
+							 parada.setKms(OdometroDescanso);
+							 listaParadas.add(parada);
+							 sobraDescans = AuxiliarKms; 
+							 
+						 }
+						 
+					 }
+					 
 				 }
 				 
 				 
