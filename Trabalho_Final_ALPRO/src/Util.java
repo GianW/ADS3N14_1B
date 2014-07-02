@@ -5,10 +5,15 @@ public class Util {
 
 	
 	 public void incluiItinerario(){
+		 
+		 //Lista que recebe os pontos inicias
 		 ArrayList<CadastroPonto> listaPontos =
                  new ArrayList<CadastroPonto>();
-		 
+		 //Lista auxiliar para ordenação
 		 ArrayList<CadastroPonto> listaPontosAux =
+                 new ArrayList<CadastroPonto>();
+		 //Lista com os valores ordenados
+		 ArrayList<CadastroPonto> listaItinerario =
                  new ArrayList<CadastroPonto>();
 		 
 		 String descricao = JOptionPane.showInputDialog(null,"Endereço de partida", "Endereço", 1);
@@ -29,10 +34,26 @@ public class Util {
 		 
 		 if(listaPontos.size() > 0){
 			 listaPontosAux = listaPontos;
-			 for(CadastroPonto cadastro1 : listaPontos){
-				/* System.out.println(cadastro1.getNome());*/
-			 	
-			
+			 int Aux = 0;
+			 String NomeAux = null;
+			 CadastroPonto registro;
+			 
+			 for(CadastroPonto cadastro1 : listaPontos){			
+				 listaPontosAux.remove(cadastro1.getNome());
+				 Aux = listaPontosAux.get(0).getCusto();
+				 NomeAux = listaPontosAux.get(0).getNome();
+				 for(CadastroPonto cadastroAux : listaPontosAux){
+					 //CHAMA DIJKISTRA PARA OBTER CUSTO ENTRE
+					 // cadastro1.getNome() e cadastroAux.getNome();
+					 
+					if(Aux > cadastroAux.getCusto()){
+						NomeAux = cadastroAux.getNome();
+						Aux = cadastroAux.getCusto();
+					}
+				 }
+				 
+				registro = new CadastroPonto(cadastro1.getNome(), NomeAux, Aux);
+				listaItinerario.add(registro);				
 			 }
 		 }	
 		 
