@@ -13,7 +13,8 @@ function onRequest(request, response){
     response.writeHead(200, {"Content-Type": "text;plain"});
 
     pesquisaPalavra(function(data){
-        
+        var obj = JSON.parse(data);
+        console.log(obj[0].valores);
         if (data != "") {
           response.write(data);    
         };
@@ -40,14 +41,15 @@ function pesquisaPalavra(callback){
     });
  
     var arrayPalavras = new Array();
-    arrayPalavras.push("nome: dedo");
-    // arrayPalavras.push("nome: quebrei");
-
-    // pesqPalavra.findOne({ nome: 'dedo' },'valores', function(err, palRetorno) {   
-    pesqPalavra.find( {$or:[arrayPalavras]},'valores', function(err, palRetorno) {   
+    arrayPalavras.push('dedo');
+    arrayPalavras.push('quebrei');    
+    
+     // pesqPalavra.findOne({ nome: 'dedo' },'valores', function(err, palRetorno) {   
+     pesqPalavra.find( {nome: {$in: arrayPalavras}}, function(err, palRetorno) {   
+     // pesqPalavra.find( {nome: {$in:['dedo','quebrei']}}, function(err, palRetorno) {   
+    // pesqPalavra.find( {$or:[arrayPalavras]},'valores', function(err, palRetorno) {   
          if (err) return console.error(err);   
-         retorno_r = JSON.stringify(palRetorno);
-         console.log(retorno_r);
+         retorno_r = JSON.stringify(palRetorno);             
          callback(retorno_r);
     });
 }
